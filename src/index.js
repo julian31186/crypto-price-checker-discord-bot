@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { Client, Intents } = require('discord.js')
 const axios = require('axios');
 const token = process.env.BOT_TOKEN;
@@ -29,6 +30,8 @@ async function getETHPrice() {
     return ETHPrice
 }
 
+const prefix = '$'
+
 const client = new Client ({
     intents: [
         Intents.FLAGS.GUILDS,
@@ -43,7 +46,13 @@ client.once("ready", () => {
 client.on("messageCreate", message => {
     if (message.content.startsWith('$')) {
         if(message.content.substring(1) === 'price') {
-            message.reply(`${getBTCPrice()}   ${getETHPrice()}`)   
+            const embed = new MessageEmbed()
+            .setColor('BLUE')
+            .setTitle('deeezx')
+            .setDescription('test')
+            .setThumbnail('https://i.imgur.com/wSTFkRM.png')
+
+            message.channel.send({embeds: [embed]})
         }
     }
 })
