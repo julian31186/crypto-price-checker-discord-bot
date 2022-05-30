@@ -6,29 +6,28 @@ const token = process.env.BOT_TOKEN;
 
 
 async function getBTCPrice() {
-    const BTC = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
+    const BTCPrice = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
         .then(response => {
             return response.data.bpi.USD.rate;
         })
         .catch(error => {
             console.log(error);
         });
-    return BTC
+
+    return BTCPrice
 }
   
 async function getETHPrice() {
-    const ETH = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+    const ETHPrice = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
         .then(response => {
             return response.data.USD;
         })
         .catch(error => {
             console.log(error);
         });
-        return ETH
-}
 
-const BTC = getBTCPrice();
-const ETH = getETHPrice();
+    return ETHPrice
+}
 
 const client = new Client ({
     intents: [
@@ -44,7 +43,7 @@ client.once("ready", () => {
 client.on("messageCreate", message => {
     if (message.content.startsWith('$')) {
         if(message.content.substring(1) === 'price') {
-            message.reply(`${BTC} ${ETH}`)   
+            message.reply(`${getBTCPrice()}   ${getETHPrice()}`)   
         }
     }
 })
