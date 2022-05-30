@@ -5,6 +5,8 @@ const { Client, Intents } = require('discord.js')
 const axios = require('axios');
 const token = process.env.BOT_TOKEN;
 
+const BTC = undefined
+const ETH = undefined
 
 async function getBTCPrice() {
     const BTCPrice = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
@@ -47,12 +49,13 @@ client.on("messageCreate", message => {
     if (message.content.startsWith('$')) {
         if(message.content.substring(1) === 'price') {
             const embed = new MessageEmbed()
-            .setColor('BLUE')
-            .setTitle('deeezx')
-            .setDescription('test')
-            .setThumbnail('https://i.imgur.com/wSTFkRM.png')
-
+            .setColor('GREEN')
+            .setTitle('Price')
+            .setDescription(`BTC: $${BTC} \n ETH: $${ETH}`)
+            .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png')
+                
             message.channel.send({embeds: [embed]})
+           
         }
     }
 })
