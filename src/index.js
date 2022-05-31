@@ -5,33 +5,18 @@ const { Client, Intents } = require('discord.js')
 const axios = require('axios');
 const token = process.env.BOT_TOKEN;
 
-const BTC = undefined
-const ETH = undefined
-
 async function getBTCPrice() {
-    const BTCPrice = await axios.get('https://api.coindesk.com/v1/bpi/currentprice.json')
-        .then(response => {
-            return response.data.bpi.USD.rate;
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-    return BTCPrice
+    const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD')
+    const BTC = res.data.USD
+    return BTC.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
-  
+
 async function getETHPrice() {
-    const ETHPrice = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
-        .then(response => {
-            return response.data.USD;
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
-    return ETHPrice
+    const res = await axios.get('https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD')
+    const ETH = res.data.USD
+    return ETH.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
-
+    
 const prefix = '$'
 
 const client = new Client ({
@@ -45,13 +30,13 @@ client.once("ready", () => {
     console.log("Ready!");
 })
 
-client.on("messageCreate", message => {
+client.on("messageCreate", async message => {
     if (message.content.startsWith('$')) {
-        if(message.content.substring(1) === 'price') {
+        if(message.content.substring(1) === 'price' || message.content.substring(1) === 'Price' || message.content.substring(1) === 'PRICE') {
             const embed = new MessageEmbed()
             .setColor('GREEN')
             .setTitle('Price')
-            .setDescription(`BTC: $${BTC} \n ETH: $${ETH}`)
+            .setDescription(`BTC: $${await getBTCPrice()} \n ETH: $${await getETHPrice()}`)
             .setThumbnail('https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1200px-Bitcoin.svg.png')
                 
             message.channel.send({embeds: [embed]})
