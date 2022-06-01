@@ -3,7 +3,7 @@
 # Task
 -Host bot using Heroku
 
-# Things to improve on: \
+# Things to improve on: 
 
 -make code more modular \
 -add more currencies \
