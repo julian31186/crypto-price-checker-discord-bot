@@ -7,7 +7,8 @@
 
 -make code more modular \
 -add more currencies \
--fix embedded message to show all coin icons \
+-fix embedded message to show all coin icons 
+ 
 
 # Commands
 # $price 
