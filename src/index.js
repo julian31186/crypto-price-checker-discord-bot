@@ -17,6 +17,7 @@ async function getETHPrice() {
     return ETH.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
     
+
 const prefix = '$'
 
 const client = new Client ({
